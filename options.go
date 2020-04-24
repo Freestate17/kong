@@ -64,7 +64,10 @@ func NoDefaultHelp() Option {
 // DefaultHelpShort sets the short name for the default help flag.
 func DefaultHelpShort(v rune) Option {
 	return OptionFunc(func(k *Kong) error {
-		k.helpFlag.Short = v
+		k.postBuildOptions = append(k.postBuildOptions, OptionFunc(func(k *Kong) error {
+			k.Model.HelpFlag.Short = v
+			return nil
+		}))
 		return nil
 	})
 }
